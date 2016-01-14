@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Demo Man</title>
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <div class="center">
+      <p class="triangle-right bottom">
+        Hi, I'm <strong><%= @name %></strong>!<br/>
+        <small>(I'm a <%= @occupation %>)</small>
+      </p>
+      <image src="/images/<%= @image %>" class="center circle glow" />
+      <p class="triangle-right top">
+        There are <strong id="running-pods"><%= @running_pods %></strong> over
+        <strong id="total-pods"><%= @total_pods %></strong> pods & <strong id="total-rcs"><%= @rc_count %></strong> replication controllers running right now!
+      </p>
+
+      <div id="doge">
+        <image src="/images/doge.png" class="inline" />
+        <p class="triangle-right left inline" id="doge-text">updated!</p>
+      </div>
+    </div>
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>
