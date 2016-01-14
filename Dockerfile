@@ -11,4 +11,4 @@ RUN gem update --system && \
     bundle install
 
 EXPOSE 9292
-CMD ["rackup"]
+CMD ["puma", "-e", "production"]
