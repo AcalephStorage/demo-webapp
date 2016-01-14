@@ -1,6 +1,6 @@
-FROM base
+FROM ubuntu:trusty
 
-MAINTAINER demoMan "demoMan@fakemail.com"
+MAINTAINER Acaleph "admin@acale.ph"
 
 # Install packages for building ruby
 RUN apt-get update
