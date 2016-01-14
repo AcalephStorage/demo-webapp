@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'logger'
-require 'tilt/erubis'
+require 'erb'
+require 'tilt'
 require 'faraday'
 require 'json'
 
