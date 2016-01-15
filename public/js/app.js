@@ -10,9 +10,9 @@ $(document).ready(function() {
       },
       dataType: 'json',
       complete: function() {
-        setTimeout(poll, 5000);
+        setTimeout(poll, 10000);
       },
-      timeout: 5000
+      timeout: 10000
     });
   })();
 });

@@ -6,8 +6,8 @@ require 'faraday'
 require 'json'
 
 if %w{development test}.include?(ENV['RACK_ENV'])
-  K8S_URL   = 'https://dev-sg-1.aws.acale.ph'
-  K8S_TOKEN = 'C0QBLTDuL3xJlBsz1YKFFIA4yzUNAhs1'
+  K8S_URL   = 'nyahahaha'
+  K8S_TOKEN = 'heheheheh'
 else
   K8S_URL   = ENV['KUBERNETES_API_URL']
   K8S_TOKEN = ENV['KUBERNETES_API_TOKEN']
