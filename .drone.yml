@@ -4,4 +4,8 @@ clone:
 build:
   image: ruby:2.2.4
   command:
-    - 'ruby -v'
+    - 'gem update --system'
+    - gem install bundler
+    - gem install minitest-reporters
+    - bundle install
+    - bundle exec rake test
