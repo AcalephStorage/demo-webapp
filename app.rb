@@ -10,7 +10,7 @@ if %w{development test}.include?(ENV['RACK_ENV'])
   K8S_TOKEN = 'heheheheh'
 else
   K8S_URL   = ENV['KUBERNETES_API_URL']
-  K8S_TOKEN = ENV['KUBERNETES_API_TOKEN']
+  K8S_TOKEN = File.read(ENV['KUBERNETES_TOKEN_FILE']).strip rescue ''
 end
 
 class DemoMan < Sinatra::Base
@@ -32,12 +32,12 @@ class DemoMan < Sinatra::Base
   }
 
   get '/' do
-    @image      = 'hunter_nield.jpg'
-    @name       = 'Hunter'
-    @occupation = 'Docker Lord'
-    # @image        = 'alistair_israel.jpg'
-    # @name         = 'Alistair'
-    # @occupation   = 'Spreadsheet Engineer'
+    # @image      = 'hunter_nield.jpg'
+    # @name       = 'Hunter'
+    # @occupation = 'Docker Lord'
+    @image        = 'alistair_israel.jpg'
+    @name         = 'Alistair'
+    @occupation   = 'Spreadsheet Engineer'
     pods          = get_pods
     @total_pods   = pods.length
     @running_pods = running_pods(pods).length
