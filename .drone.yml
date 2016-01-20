@@ -1,4 +1,3 @@
-debug: true
 clone:
   path: github.com/AcalephStorage/demo-webapp
 build:
