@@ -7,3 +7,11 @@ build:
     - gem install bundler
     - bundle install
     - bundle exec rake test
+publish:
+  docker:
+    registry: quay.io
+    username: $$QUAY_USERNAME
+    password: $$QUAY_PASSWORD
+    email: robot@fakemail.com
+    repo: AcalephStorage/demo-webapp
+    file: Dockerfile
