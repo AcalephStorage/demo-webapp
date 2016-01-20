@@ -13,5 +13,5 @@ publish:
     username: $$QUAY_USERNAME
     password: $$QUAY_PASSWORD
     email: robot@fakemail.com
-    repo: AcalephStorage/demo-webapp
+    repo: quay.io/acaleph/demo-webapp
     file: Dockerfile
