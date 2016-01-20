@@ -2,7 +2,7 @@ clone:
   path: github.com/AcalephStorage/demo-webapp
 build:
   image: ruby:2.2.4
-  command:
+  commands:
     - 'gem update --system'
     - gem install bundler
     - bundle install
