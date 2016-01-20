@@ -7,7 +7,6 @@ WORKDIR /root/demo-webapp
 
 RUN gem update --system && \
     gem install bundler && \
-    gem install minitest-reporters && \
     bundle install
 
 EXPOSE 9292
