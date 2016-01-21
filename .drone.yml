@@ -10,12 +10,13 @@ build:
     - bundle exec rake test
 publish:
   docker:
+    registry: quay.io
     environment:
       - DOCKER_LAUNCH_DEBUG=true
-    registry: quay.io/v1
     username: $$QUAY_USERNAME
     password: $$QUAY_PASSWORD
     email: $$QUAY_EMAIL
     repo: acaleph/demo-webapp
-    storage_driver: overlay
-    file: Dockerfile
+    storage_driver: vfs
+    when:
+      branch: master
