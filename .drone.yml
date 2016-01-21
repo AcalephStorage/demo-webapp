@@ -10,7 +10,6 @@ build:
 publish:
   docker:
     registry: quay.io/v1
-    docker_host: unix:///var/run/docker.sock
     username: $$QUAY_USERNAME
     password: $$QUAY_PASSWORD
     email: $$QUAY_EMAIL
