@@ -1,15 +1,6 @@
-FROM wingrunr21/drone-base
+FROM ruby:2.2.4
 
 MAINTAINER Acaleph "admin@acale.ph"
-
-ENV SHELL /bin/bash
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-
-RUN apt-get update
-RUN ruby-install ruby  2.2.4
-RUN /bin/bash -l -c "chruby 2.2.4 && gem install bundler --no-rdoc --no-ri"
 
 ADD . /root/demo-webapp
 WORKDIR /root/demo-webapp
