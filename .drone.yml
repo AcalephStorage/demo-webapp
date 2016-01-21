@@ -1,22 +1,9 @@
 debug: true
-clone:
-  path: github.com/AcalephStorage/demo-webapp
 build:
-  image: ruby:2.2.4
+  image: drone/docker:latest
   commands:
-    - 'gem update --system'
-    - gem install bundler
-    - bundle install
-    - bundle exec rake test
-publish:
-  docker:
-    registry: quay.io
-    environment:
-      - DOCKER_LAUNCH_DEBUG=true
-    username: $$QUAY_USERNAME
-    password: $$QUAY_PASSWORD
-    email: $$QUAY_EMAIL
-    repo: acaleph/demo-webapp
-    storage_driver: vfs
-    when:
-      branch: master
+    - docker build -t drone/demo-webapp .
+    - docker run -d --name=demo-webapp drone/demo-webapp
+    - docker exec demo-webapp sh -c 'cd /root/demo-webapp && bundle exec rake test'
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
