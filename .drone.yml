@@ -9,7 +9,7 @@ build:
     - bundle exec rake test
 publish:
   docker:
-    registry: quay.io/v1
+    registry: quay.io
     docker_host: unix:///var/run/docker.sock
     username: $$QUAY_USERNAME
     password: $$QUAY_PASSWORD
