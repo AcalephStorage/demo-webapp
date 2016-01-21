@@ -5,7 +5,6 @@ MAINTAINER Acaleph "admin@acale.ph"
 ADD . /root/demo-webapp
 WORKDIR /root/demo-webapp
 
-RUN gem update --system 
 RUN gem install bundler 
 RUN bundle install
 
