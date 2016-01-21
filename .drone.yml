@@ -13,7 +13,7 @@ publish:
     docker_host: unix:///var/run/docker.sock
     username: $$QUAY_USERNAME
     password: $$QUAY_PASSWORD
-    email: robot@fakemail.com
+    email: $$QUAY_EMAIL
     repo: quay.io/acaleph/demo-webapp
     storage_driver: overlay
     file: Dockerfile
