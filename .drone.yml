@@ -15,5 +15,5 @@ publish:
     password: $$QUAY_PASSWORD
     email: $$QUAY_EMAIL
     repo: acaleph/demo-webapp
-    storage_driver: overlay
+    storage_driver: aufs
     file: Dockerfile
