@@ -2,8 +2,8 @@ debug: true
 build:
   image: plugins/drone-docker:latest
   commands:
-    - docker build -t drone/demo-webapp .
-    - docker run -d --name=demo-webapp drone/demo-webapp
-    - docker exec demo-webapp sh -c 'cd /root/demo-webapp && bundle exec rake test'
+    - docker -H unix:///var/run/docker.sock build -t drone/demo-webapp .
+    - docker -H unix:///var/run/docker.sock run -d --name=demo-webapp drone/demo-webapp
+    - docker -H unix:///var/run/docker.sock exec demo-webapp sh -c 'cd /root/demo-webapp && bundle exec rake test'
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
