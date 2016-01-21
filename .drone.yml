@@ -1,6 +1,6 @@
 debug: true
 build:
-  image: plugins/drone-docker:latest
+  image: docker:latest
   commands:
     - docker -H unix:///var/run/docker.sock build -t drone/demo-webapp .
     - docker -H unix:///var/run/docker.sock run -d --name=demo-webapp drone/demo-webapp
