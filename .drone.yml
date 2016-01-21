@@ -15,4 +15,5 @@ publish:
     password: $$QUAY_PASSWORD
     email: robot@fakemail.com
     repo: quay.io/acaleph/demo-webapp
+    storage_driver: overlay
     file: Dockerfile
