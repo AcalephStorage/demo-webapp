@@ -8,16 +8,5 @@ build:
     - docker -H unix:///var/run/docker.sock exec demo-webapp-$$COMMIT sh -c 'bundle exec rake test'
     - docker -H unix:///var/run/docker.sock stop  demo-webapp-$$COMMIT
     - docker -H unix:///var/run/docker.sock rm -f demo-webapp-$$COMMIT
-publish:
-  docker:
-    environment:
-      - DOCKER_LAUNCH_DEBUG=true
-    registry: quay.io/v1
-    username: $$QUAY_USERNAME
-    password: $$QUAY_PASSWORD
-    email: $$QUAY_EMAIL
-    repo: quay.io/acaleph/demo-webapp
-    storage_driver: overlay
-    file: Dockerfile
 
 
