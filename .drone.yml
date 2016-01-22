@@ -1,4 +1,3 @@
-debug: true
 build:
   image: docker:1.8.3
   volumes:
@@ -9,4 +8,5 @@ build:
     - docker exec demo-webapp sh -c 'bundle exec rake test'
     - docker stop -f demo-webapp-$$COMMIT
     - docker rm -f demo-webapp-$$COMMIT
+
 
