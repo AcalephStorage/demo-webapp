@@ -1,12 +1,12 @@
 build:
   image: docker:1.8.3
   volumes:
-    - /var/run/docker.sock:/var/run/docker1.sock
+    - /var/run/docker.sock:/var/run/docker.sock
   commands:
-    - docker -H unix:///var/run/docker1.sock build -t drone/demo-webapp:$$COMMIT .
-    - docker -H unix:///var/run/docker1.sock run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
-    - docker -H unix:///var/run/docker1.sock exec demo-webapp sh -c 'bundle exec rake test'
-    - docker -H unix:///var/run/docker1.sock stop -f demo-webapp-$$COMMIT
-    - docker -H unix:///var/run/docker1.sock rm -f demo-webapp-$$COMMIT
+    - docker -H unix:///var/run/docker.sock build -t drone/demo-webapp:$$COMMIT .
+    - docker -H unix:///var/run/docker.sock run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
+    - docker -H unix:///var/run/docker.sock exec demo-webapp sh -c 'bundle exec rake test'
+    - docker -H unix:///var/run/docker.sock stop -f demo-webapp-$$COMMIT
+    - docker -H unix:///var/run/docker.sock rm -f demo-webapp-$$COMMIT
 
 
