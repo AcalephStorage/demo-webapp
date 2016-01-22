@@ -5,5 +5,8 @@ build:
     - /var/run/docker.sock:/var/run/docker.sock
   commands:
     - docker build -t drone/demo-webapp:$$COMMIT .
-    - docker run -d --name=demo-webapp drone/demo-webapp
+    - docker run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
     - docker exec demo-webapp sh -c 'bundle exec rake test'
+    - docker stop -f demo-webapp-$$COMMIT
+    - docker rm -f demo-webapp-$$COMMIT
+
