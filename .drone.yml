@@ -7,3 +7,4 @@ build:
     - docker -H unix:///var/run/docker.sock exec demo-webapp sh -c 'cd /root/demo-webapp && bundle exec rake test'
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
+  privileged: true
