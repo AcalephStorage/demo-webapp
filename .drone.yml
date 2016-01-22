@@ -3,9 +3,9 @@ build:
   image: docker:latest
   commands:
     - ls /var/run
-    - docker -H tcp://10.0.0.50:2375 build -t drone/demo-webapp .
-    - docker -H tcp://10.0.0.50:2375 run -d --name=demo-webapp drone/demo-webapp
-    - docker -H tcp://10.0.0.50:2375 exec demo-webapp sh -c 'cd /root/demo-webapp && bundle exec rake test'
+    - docker -H unix:///var/run/docker.sock build -t drone/demo-webapp .
+    - docker -H unix:///var/run/docker.sock run -d --name=demo-webapp drone/demo-webapp
+    - docker -H unix:///var/run/docker.sock exec demo-webapp sh -c 'cd /root/demo-webapp && bundle exec rake test'
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   privileged: true
