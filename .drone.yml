@@ -4,7 +4,6 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker stop  demo-webapp-$$BRANCH-$$COMMIT
       - docker rm -f demo-webapp-$$BRANCH-$$COMMIT
       - docker rmi -f drone/demo-webapp:$$BRANCH-$$COMMIT  
   create_image:
@@ -47,7 +46,6 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker stop  demo-webapp-$$BRANCH-$$COMMIT
       - docker rm -f demo-webapp-$$BRANCH-$$COMMIT
       - docker rmi -f quay.io/acaleph/demo-webapp:$$COMMIT
       - docker rmi -f quay.io/acaleph/demo-webapp:$$BRANCH
