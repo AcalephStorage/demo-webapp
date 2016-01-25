@@ -4,13 +4,13 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker build -t drone/demo-webapp:$$COMMIT .
+      - docker build -t drone/demo-webapp:$$BRANCH-$$COMMIT .
   unit_tests:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
+      - docker run -d --name=demo-webapp-$$BRANCH-$$COMMIT drone/demo-webapp:$$BRANCH-$$COMMIT
       -  docker exec demo-webapp-$$COMMIT sh -c 'bundle exec rake test'
   push_image:
     image: docker:1.8.3
@@ -18,9 +18,9 @@ build:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
-      - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$COMMIT
-      - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$BRANCH
-      - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:latest
+      - docker tag -f drone/demo-webapp:$$BRANCH-$$COMMIT quay.io/acaleph/demo-webapp:$$COMMIT
+      - docker tag -f drone/demo-webapp:$$BRANCH-$$COMMIT quay.io/acaleph/demo-webapp:$$BRANCH
+      - docker tag -f drone/demo-webapp:$$BRANCH-$$COMMIT quay.io/acaleph/demo-webapp:latest
       - docker push quay.io/acaleph/demo-webapp:$$COMMIT
       - docker push quay.io/acaleph/demo-webapp:$$BRANCH
       - docker push quay.io/acaleph/demo-webapp:latest
@@ -39,9 +39,9 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker stop  demo-webapp-$$COMMIT
-      - docker rm -f demo-webapp-$$COMMIT
+      - docker stop  demo-webapp-$$BRANCH-$$COMMIT
+      - docker rm -f demo-webapp-$$BRANCH-$$COMMIT
       - docker rmi -f quay.io/acaleph/demo-webapp:$$COMMIT
       - docker rmi -f quay.io/acaleph/demo-webapp:$$BRANCH
       - docker rmi -f quay.io/acaleph/demo-webapp:latest
-      - docker rmi -f drone/demo-webapp:$$COMMIT
+      - docker rmi -f drone/demo-webapp:$$BRANCH-$$COMMIT

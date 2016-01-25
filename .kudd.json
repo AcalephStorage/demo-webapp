@@ -1,27 +1,42 @@
----
-kind: Deployment
-apiVersion: extensions/v1beta1
-metadata:
-  name: {{.Name}}-{{.Branch}}
-  namespace: acaleph
-spec:
-  replicas: 1
-  selector:
-    app: demo-webapp
-    type: webapp
-  stragegy: 
-    type: RollingUpdate
-  template:
-    metadata:
-      name: demo-webapp
-      namespace: acaleph
-      labels:
-        app: demo-webapp
-        type: webapp
-    spec:
-      containers:
-        - name: demo-webapp
-          image: quay.io/acaleph/demo-webapp:{{.Commit}}
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 9292
+{
+  "kind": "Deployment",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "{{.Name}}-{{.Branch}}",
+    "namespace": "acaleph"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "app": "demo-webapp",
+      "type": "webapp"
+    },
+    "stragegy": {
+      "type": "RollingUpdate"
+    },
+    "template": {
+      "metadata": {
+        "name": "demo-webapp",
+        "namespace": "acaleph",
+        "labels": {
+          "app": "demo-webapp",
+          "type": "webapp"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "demo-webapp",
+            "image": "quay.io/acaleph/demo-webapp:{{.Commit}}",
+            "imagePullPolicy": "Always",
+            "ports": [
+              {
+                "containerPort": 9292
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
