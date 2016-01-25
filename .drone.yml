@@ -1,5 +1,5 @@
 build:
-  image: quay.io/darkcrux/docker-client:latest
+  image: docker:1.8.3
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   commands:
@@ -11,11 +11,19 @@ build:
     # publish
     - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
     - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$COMMIT
+    - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$BRANCH
+    - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:latest
     - docker push quay.io/acaleph/demo-webapp:$$COMMIT
+    - docker push quay.io/acaleph/demo-webapp:$$BRANCH
+    - docker push quay.io/acaleph/demo-webapp:latest
     - docker logout quay.io
+    # deploy
+    # ... todo
     # cleanup
     - docker stop  demo-webapp-$$COMMIT
     - docker rm -f demo-webapp-$$COMMIT
     - docker rmi -f quay.io/acaleph/demo-webapp:$$COMMIT
+    - docker rmi -f quay.io/acaleph/demo-webapp:$$BRANCH
+    - docker rmi -f quay.io/acaleph/demo-webapp:latest
     - docker rmi -f drone/demo-webapp:$$COMMIT
 
