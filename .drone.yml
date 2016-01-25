@@ -1,12 +1,10 @@
 build:
-  image: docker:1.8.3
+  image: quay.io/darkcrux/docker-client:latest
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   commands:
-    - docker -H unix:///var/run/docker.sock build -t drone/demo-webapp:$$COMMIT .
-    - docker -H unix:///var/run/docker.sock run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
-    - docker -H unix:///var/run/docker.sock exec demo-webapp-$$COMMIT sh -c 'bundle exec rake test'
-    - docker -H unix:///var/run/docker.sock stop  demo-webapp-$$COMMIT
-    - docker -H unix:///var/run/docker.sock rm -f demo-webapp-$$COMMIT
-
-
+    - docker build -t drone/demo-webapp:$$COMMIT .
+    - docker run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
+    - docker exec demo-webapp-$$COMMIT sh -c 'bundle exec rake test'
+    - docker stop  demo-webapp-$$COMMIT
+    - docker rm -f demo-webapp-$$COMMIT
