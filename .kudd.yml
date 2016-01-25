@@ -1,0 +1,27 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: demo-webapp
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    app: demo-webapp
+    type: webapp
+  stragegy: 
+    type: RollingUpdate
+  template:
+    metadata:
+      name: podname
+      namespace: acaleph
+      labels:
+        app: appname
+        type: webapp
+    spec:
+      containers:
+        - name: appname
+          image: quay.io/acaleph/demo-webapp:{{.Commit}}
+          ports:
+            - containerPort: 9292
+          imagePullPolicy: Always
