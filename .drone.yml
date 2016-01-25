@@ -1,4 +1,12 @@
 build:
+  pre_cleanup:
+    image: docker:1.8.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker stop  demo-webapp-$$BRANCH-$$COMMIT
+      - docker rm -f demo-webapp-$$BRANCH-$$COMMIT
+      - docker rmi -f drone/demo-webapp:$$BRANCH-$$COMMIT  
   create_image:
     image: docker:1.8.3
     volumes:
@@ -34,7 +42,7 @@ build:
       - curl -X POST -d @.kudd.json "$$KUDD_URL/push?name=demo-webapp&branch=$$BRANCH&commit=$$COMMIT"
     when:
       branch: develop
-  cleanup:
+  post_cleanup:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
