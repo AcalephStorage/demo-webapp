@@ -3,7 +3,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: {{.Name}}-{{.Branch}}
-  namespace: default
+  namespace: acaleph
 spec:
   replicas: 1
   selector:
