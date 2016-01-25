@@ -4,8 +4,8 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker rm -f demo-webapp-$$BRANCH-$$COMMIT
-      - docker rmi -f drone/demo-webapp:$$BRANCH-$$COMMIT  
+      - docker rm -f demo-webapp-$$BRANCH-$$COMMIT || true
+      - docker rmi -f drone/demo-webapp:$$BRANCH-$$COMMIT || true 
   create_image:
     image: docker:1.8.3
     volumes:
