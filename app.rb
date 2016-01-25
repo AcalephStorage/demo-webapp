@@ -10,7 +10,7 @@ if %w{development test}.include?(ENV['RACK_ENV'])
   K8S_TOKEN = 'heheheheh'
 else
   K8S_URL   = ENV['KUBERNETES_API_URL']
-  K8S_TOKEN = File.read(ENV['KUBERNETES_TOKEN_FILE']).strip rescue ''
+  K8S_TOKEN = File.read(ENV['KUBERNETES_API_TOKEN_FILE']).strip rescue ''
 end
 
 class DemoMan < Sinatra::Base
