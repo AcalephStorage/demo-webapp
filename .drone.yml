@@ -1,30 +1,47 @@
 build:
-  image: docker:1.8.3
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  commands:
-    # build image
-    - docker build -t drone/demo-webapp:$$COMMIT .
-    # test image
-    - docker run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
-    - docker exec demo-webapp-$$COMMIT sh -c 'bundle exec rake test'
-    # publish
-    - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
-    - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$COMMIT
-    - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$BRANCH
-    - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:latest
-    - docker push quay.io/acaleph/demo-webapp:$$COMMIT
-    - docker push quay.io/acaleph/demo-webapp:$$BRANCH
-    - docker push quay.io/acaleph/demo-webapp:latest
-    - docker logout quay.io
+  create_image:
+    image: docker:1.8.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker build -t drone/demo-webapp:$$COMMIT .
+  unit_tests:
+    image: docker:1.8.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker run -d --name=demo-webapp-$$COMMIT drone/demo-webapp:$$COMMIT
+      -  docker exec demo-webapp-$$COMMIT sh -c 'bundle exec rake test'
+  push_image:
+    image: docker:1.8.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
+      - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$COMMIT
+      - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:$$BRANCH
+      - docker tag -f drone/demo-webapp:$$COMMIT quay.io/acaleph/demo-webapp:latest
+      - docker push quay.io/acaleph/demo-webapp:$$COMMIT
+      - docker push quay.io/acaleph/demo-webapp:$$BRANCH
+      - docker push quay.io/acaleph/demo-webapp:latest
+      - docker logout quay.io
     # deploy
-    # ... todo
-    # cleanup
-    - docker stop  demo-webapp-$$COMMIT
-    - docker rm -f demo-webapp-$$COMMIT
-    - docker rmi -f quay.io/acaleph/demo-webapp:$$COMMIT
-    - docker rmi -f quay.io/acaleph/demo-webapp:$$BRANCH
-    - docker rmi -f quay.io/acaleph/demo-webapp:latest
-    - docker rmi -f drone/demo-webapp:$$COMMIT
-    # deploy to k8s
-    - curl -X POST -d @.kudd.json "$$KUDD_URL/push?name=demo-webapp&branch=$$BRANCH&commit=$$COMMIT"
+  deploy_k8s:
+    image: docker:1.8.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - curl -X POST -d @.kudd.json "$$KUDD_URL/push?name=demo-webapp&branch=$$BRANCH&commit=$$COMMIT"
+    when:
+      branch: develop
+  cleanup:
+    image: docker:1.8.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker stop  demo-webapp-$$COMMIT
+      - docker rm -f demo-webapp-$$COMMIT
+      - docker rmi -f quay.io/acaleph/demo-webapp:$$COMMIT
+      - docker rmi -f quay.io/acaleph/demo-webapp:$$BRANCH
+      - docker rmi -f quay.io/acaleph/demo-webapp:latest
+      - docker rmi -f drone/demo-webapp:$$COMMIT
