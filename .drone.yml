@@ -18,7 +18,7 @@ build:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker run -d --name=demo-webapp-$$BRANCH-$$COMMIT drone/demo-webapp:$$BRANCH-$$COMMIT
-      -  docker exec demo-webapp-$$COMMIT sh -c 'bundle exec rake test'
+      -  docker exec demo-webapp-$$BRANCH-$$COMMIT sh -c 'bundle exec rake test'
   push_image:
     image: docker:1.8.3
     volumes:
