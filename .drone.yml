@@ -19,7 +19,7 @@ build:
     commands:
       - docker run -d --name=demo-webapp-$$BUILD_NUMBER drone/demo-webapp:$$BUILD_NUMBER
       -  docker exec demo-webapp-$$BUILD_NUMBER sh -c 'bundle exec rake test'
-  push_image:
+  push_image_if_master_develop:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -32,6 +32,18 @@ build:
       - docker logout quay.io
     when:
       branch: [master, develop]
+    push_image_if_pr:
+    image: docker:1.8.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
+      - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
+      - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:latest
+      - docker push quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
+      - docker push quay.io/acaleph/demo-webapp:latest
+      - docker logout quay.io
+    when:
       event: pull_request
   deploy_k8s:
     image: docker:1.8.3
