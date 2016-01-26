@@ -9,7 +9,7 @@
         Hi, I'm <strong><%= @name %></strong>!<br/>
         <small>(I'm a <%= @occupation %>)</small>
       </p>
-      <image src="/images/<%= @image %>" class="center circle glow" />
+      <image src="/images/<%= @image %>" class="center circle glow" id="demo-pic"/>
       <p class="triangle-right top">
         There are <strong id="running-pods"><%= @running_pods %></strong> over
         <strong id="total-pods"><%= @total_pods %></strong> pods & <strong id="total-rcs"><%= @rc_count %></strong> replication controllers running right now!
