@@ -30,6 +30,9 @@ build:
       - docker push quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
       - docker push quay.io/acaleph/demo-webapp:latest
       - docker logout quay.io
+    when:
+      branch: [master, develop]
+      event: tag
   deploy_k8s:
     image: docker:1.8.3
     volumes:
