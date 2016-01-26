@@ -4,27 +4,27 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker rm -f demo-webapp-$$BUILD_NUMBER || true
-      - docker rmi -f drone/demo-webapp:$$BUILD_NUMBER || true 
+      - docker rm -f demo-webapp-$${BUILD_NUMBER} || true
+      - docker rmi -f drone/demo-webapp:$${BUILD_NUMBER} || true 
   create_image:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker build -t drone/demo-webapp:$$BUILD_NUMBER .
+      - docker build -t drone/demo-webapp:$${BUILD_NUMBER} .
   unit_tests:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run -d --name=demo-webapp-$$BUILD_NUMBER drone/demo-webapp:$$BUILD_NUMBER
-      -  docker exec demo-webapp-$$BUILD_NUMBER sh -c 'bundle exec rake test'
+      - docker run -d --name=demo-webapp-$${BUILD_NUMBER} drone/demo-webapp:$$BUILD_NUMBER
+      -  docker exec demo-webapp-$${BUILD_NUMBER} sh -c 'bundle exec rake test'
   push_image_if_master_develop:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
+      - docker login --username=$${DOCKER_USER} --password=$${DOCKER_PASSWORD} --email=$${DOCKER_EMAIL} quay.io
       - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
       - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:latest
       - docker push quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
@@ -37,7 +37,7 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
+      - docker login --username=$${DOCKER_USER} --password=$${DOCKER_PASSWORD} --email=$${DOCKER_EMAIL} quay.io
       - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
       - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:latest
       - docker push quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
