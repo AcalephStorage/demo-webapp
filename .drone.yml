@@ -30,7 +30,6 @@ build:
       - docker push quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
       - docker push quay.io/acaleph/demo-webapp:latest
       - docker logout quay.io
-    # deploy
   deploy_k8s:
     image: docker:1.8.3
     volumes:
@@ -44,7 +43,7 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker rm -f demo-webapp-$$BUILD_NUMBER
-      - docker rmi -f quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
-      - docker rmi -f quay.io/acaleph/demo-webapp:latest
-      - docker rmi -f drone/demo-webapp:$$BUILD_NUMBER
+      - docker rm -f demo-webapp-$$BUILD_NUMBER || true
+      - docker rmi -f quay.io/acaleph/demo-webapp:$${BRANCH##feature/} || true
+      - docker rmi -f quay.io/acaleph/demo-webapp:latest || true
+      - docker rmi -f drone/demo-webapp:$$BUILD_NUMBER || true
