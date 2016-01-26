@@ -32,7 +32,7 @@ build:
       - docker logout quay.io
     when:
       branch: [master, develop]
-      event: tag
+      event: pull_request
   deploy_k8s:
     image: docker:1.8.3
     volumes:
