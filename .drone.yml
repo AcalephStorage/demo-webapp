@@ -4,41 +4,40 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker rm -f demo-webapp-$$BRANCH-$$COMMIT || true
-      - docker rmi -f drone/demo-webapp:$$BRANCH-$$COMMIT || true 
+      - docker rm -f demo-webapp-$${BUILD_NUMBER} || true
+      - docker rmi -f drone/demo-webapp:$${BUILD_NUMBER} || true 
   create_image:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker build -t drone/demo-webapp:$$BRANCH-$$COMMIT .
+      - docker build -t drone/demo-webapp:$${BUILD_NUMBER} .
   unit_tests:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run -d --name=demo-webapp-$$BRANCH-$$COMMIT drone/demo-webapp:$$BRANCH-$$COMMIT
-      -  docker exec demo-webapp-$$BRANCH-$$COMMIT sh -c 'bundle exec rake test'
+      - docker run -d --name=demo-webapp-$${BUILD_NUMBER} drone/demo-webapp:$$BUILD_NUMBER
+      -  docker exec demo-webapp-$${BUILD_NUMBER} sh -c 'bundle exec rake test'
   push_image:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker login --username=$$DOCKER_USER --password=$$DOCKER_PASSWORD --email=$$DOCKER_EMAIL quay.io
-      - docker tag -f drone/demo-webapp:$$BRANCH-$$COMMIT quay.io/acaleph/demo-webapp:$$COMMIT
-      - docker tag -f drone/demo-webapp:$$BRANCH-$$COMMIT quay.io/acaleph/demo-webapp:$$BRANCH
-      - docker tag -f drone/demo-webapp:$$BRANCH-$$COMMIT quay.io/acaleph/demo-webapp:latest
-      - docker push quay.io/acaleph/demo-webapp:$$COMMIT
-      - docker push quay.io/acaleph/demo-webapp:$$BRANCH
+      - docker login --username=$${DOCKER_USER} --password=$${DOCKER_PASSWORD} --email=$${DOCKER_EMAIL} quay.io
+      - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
+      - docker tag -f drone/demo-webapp:$$BUILD_NUMBER quay.io/acaleph/demo-webapp:latest
+      - docker push quay.io/acaleph/demo-webapp:$${BRANCH##feature/}
       - docker push quay.io/acaleph/demo-webapp:latest
       - docker logout quay.io
-    # deploy
+    when:
+      event: push
   deploy_k8s:
     image: docker:1.8.3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - curl -X POST -d @.kudd.json "$$KUDD_URL/push?name=demo-webapp&branch=$$BRANCH&commit=$$COMMIT"
+      - curl -X POST -d @.kudd.json "$$KUDD_URL/push?name=demo-webapp&branch=develop&commit=$$COMMIT"
     when:
       branch: develop
   post_cleanup:
@@ -46,8 +45,7 @@ build:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker rm -f demo-webapp-$$BRANCH-$$COMMIT
-      - docker rmi -f quay.io/acaleph/demo-webapp:$$COMMIT
-      - docker rmi -f quay.io/acaleph/demo-webapp:$$BRANCH
-      - docker rmi -f quay.io/acaleph/demo-webapp:latest
-      - docker rmi -f drone/demo-webapp:$$BRANCH-$$COMMIT
+      - docker rm -f demo-webapp-$$BUILD_NUMBER || true
+      - docker rmi -f quay.io/acaleph/demo-webapp:$${BRANCH##feature/} || true
+      - docker rmi -f quay.io/acaleph/demo-webapp:latest || true
+      - docker rmi -f drone/demo-webapp:$$BUILD_NUMBER || true
