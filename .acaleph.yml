@@ -1,0 +1,31 @@
+---
+apiVersion: v1alpha1
+kind: Pipeline
+metadata:
+  name: demo-webapp
+  namespace: acaleph
+spec:
+  selector:
+    matchLabels:
+      app: demo-webapp
+  template:
+    metadata:
+      name: demo-webapp
+      labels:
+        app: demo-webapp
+    stages:
+      - name: Build Image
+        type: docker_build
+        index: 1
+        params:
+          dockerfile_path: .
+          dockerfile_name: Dockerfile
+
+      - name: Deploy Image
+        type: docker_publish
+        index: 2
+        params:
+          external_registry: 10.87.243.71:5000
+          external_image_name: acaleph/demo-webapp
+          require_credentials: "FALSE"
+ 
