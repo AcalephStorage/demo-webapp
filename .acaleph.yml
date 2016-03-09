@@ -18,6 +18,7 @@ spec:
         type: docker_build
         index: 1
         params:
+          internal_registry: 10.87.243.71:5000
           dockerfile_path: .
           dockerfile_name: Dockerfile
 
