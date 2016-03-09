@@ -25,6 +25,7 @@ spec:
         type: docker_publish
         index: 2
         params:
+          internal_registry: 10.87.243.71:5000
           external_registry: 10.87.243.71:5000
           external_image_name: acaleph/demo-webapp
           require_credentials: "FALSE"
