@@ -16,7 +16,6 @@ spec:
     stages:
       - name: Build Image
         type: docker_build
-        index: 1
         params:
           internal_registry: 10.87.243.71:5000
           dockerfile_path: .
@@ -24,7 +23,6 @@ spec:
 
       - name: Deploy Image
         type: docker_publish
-        index: 2
         params:
           internal_registry: 10.87.243.71:5000
           external_registry: 10.87.243.71:5000
