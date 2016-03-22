@@ -35,7 +35,7 @@ spec:
           require_credentials: "TRUE"
           username: user
           password: password
-            email: email
+          email: email
         secrets:
           - docker-credentials
  
