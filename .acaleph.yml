@@ -20,7 +20,7 @@ spec:
           dockerfile_path: .
           dockerfile_name: Dockerfile
 
-      - name: Perform test
+      - name: Unit Test
         type: command
         params:
           command:
@@ -30,7 +30,12 @@ spec:
       - name: Deploy Image
         type: docker_publish
         params:
-          external_registry: 10.87.243.71:5000
+          external_registry: quay.io
           external_image_name: acaleph/demo-webapp
-          require_credentials: "FALSE"
+          require_credentials: "TRUE"
+          username: user
+          password: password
+            email: email
+        secrets:
+          - docker-credentials
  
