@@ -13,6 +13,13 @@ spec:
       name: demo-webapp
       labels:
         app: demo-webapp
+    notif:
+      - type: "slack"
+        metadata:
+          url: slackurl
+          channel: slackchannel
+          username: slackuser
+        secret: acalephnotifier        
     stages:
       - name: Build Image
         type: docker_build
@@ -37,5 +44,5 @@ spec:
           password: password
           email: email
         secrets:
-          - docker-credentials
+          - quayregistrycreds
  
